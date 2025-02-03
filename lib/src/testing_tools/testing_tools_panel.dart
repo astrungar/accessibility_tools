@@ -186,17 +186,17 @@ class _TestingToolsPanelState extends State<TestingToolsPanel> {
                     values: ColorModeSimulation.values,
                     nameBuilder: (e) => e?.name ?? 'Off',
                   ),
-                  gap,
-                  SwitchToggle(
-                    title: 'Modul de citire de ecran',
-                    info:
-                        '''Activați modul de citire de ecran pentru a vizualiza și testa etichetele și atributele semantice ale aplicației''',
-                    value: semanticsDebuggerEnabled ?? false,
-                    onChanged: (value) {
-                      semanticsDebuggerEnabled = value;
-                      _notifyTestEnvironmentChanged();
-                    },
-                  ),
+                  // gap,
+                  // SwitchToggle(
+                  //   title: 'Modul de citire de ecran',
+                  //   info:
+                  //       '''Activați modul de citire de ecran pentru a vizualiza și testa etichetele și atributele semantice ale aplicației''',
+                  //   value: semanticsDebuggerEnabled ?? false,
+                  //   onChanged: (value) {
+                  //     semanticsDebuggerEnabled = value;
+                  //     _notifyTestEnvironmentChanged();
+                  //   },
+                  // ),
                   const SizedBox(height: 8),
                   const Divider(),
                   const SizedBox(height: 12),
