@@ -56,6 +56,7 @@ class AccessibilityTools extends StatefulWidget {
     this.buttonsAlignment = ButtonsAlignment.bottomRight,
     this.enableButtonsDrag = false,
     this.testingToolsConfiguration = const TestingToolsConfiguration(),
+    this.hideDefaultButtons = false,
   });
 
   /// Forces accessibility checkers to run when running from a test.
@@ -74,6 +75,11 @@ class AccessibilityTools extends StatefulWidget {
   final bool enableButtonsDrag;
   final TestingToolsConfiguration testingToolsConfiguration;
 
+  final bool hideDefaultButtons;
+
+  static ValueNotifier<bool> isAccessibilityOverlayEnabled =
+      ValueNotifier<bool>(false);
+
   @override
   State<AccessibilityTools> createState() => _AccessibilityToolsState();
 }
@@ -87,6 +93,17 @@ class _AccessibilityToolsState extends State<AccessibilityTools>
 
   bool _testingToolsVisible = false;
   TestEnvironment _environment = const TestEnvironment();
+
+  @override
+  void initState() {
+    AccessibilityTools.isAccessibilityOverlayEnabled.addListener(() {
+      setState(() {
+        _testingToolsVisible =
+            AccessibilityTools.isAccessibilityOverlayEnabled.value;
+      });
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -167,21 +184,23 @@ class _AccessibilityToolsState extends State<AccessibilityTools>
           initialEntries: [
             OverlayEntry(
               builder: (_) {
-                return CheckerOverlay(
-                  checker: _checker,
-                  buttonsAlignment: widget.buttonsAlignment,
-                  enableButtonsDrag: widget.enableButtonsDrag,
-                  isTestingPanelEnabled:
-                      widget.testingToolsConfiguration.enabled,
-                  onToolsButtonPressed: () {
-                    setState(() {
-                      _testingToolsVisible = !_testingToolsVisible;
-                    });
-                  },
-                  onHideTestingTools: () {
-                    setState(() => _testingToolsVisible = false);
-                  },
-                );
+                return widget.hideDefaultButtons
+                    ? Container()
+                    : CheckerOverlay(
+                        checker: _checker,
+                        buttonsAlignment: widget.buttonsAlignment,
+                        enableButtonsDrag: widget.enableButtonsDrag,
+                        isTestingPanelEnabled:
+                            widget.testingToolsConfiguration.enabled,
+                        onToolsButtonPressed: () {
+                          setState(() {
+                            _testingToolsVisible = !_testingToolsVisible;
+                          });
+                        },
+                        onHideTestingTools: () {
+                          setState(() => _testingToolsVisible = false);
+                        },
+                      );
               },
             ),
             if (widget.testingToolsConfiguration.enabled)
@@ -193,7 +212,8 @@ class _AccessibilityToolsState extends State<AccessibilityTools>
                     environment: _environment,
                     configuration: widget.testingToolsConfiguration,
                     onClose: () {
-                      setState(() => _testingToolsVisible = false);
+                      AccessibilityTools.isAccessibilityOverlayEnabled.value =
+                          false;
                     },
                     onEnvironmentUpdate: (TestEnvironment environment) {
                       setState(() => _environment = environment);
