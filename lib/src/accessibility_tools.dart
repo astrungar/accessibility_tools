@@ -84,8 +84,7 @@ class AccessibilityTools extends StatefulWidget {
   State<AccessibilityTools> createState() => _AccessibilityToolsState();
 }
 
-class _AccessibilityToolsState extends State<AccessibilityTools>
-    with SemanticUpdateMixin {
+class _AccessibilityToolsState extends State<AccessibilityTools> {
   late CheckerManager _checker = CheckerManager(
     checkers: _getCheckers(),
     logLevel: widget.logLevel,
@@ -111,17 +110,17 @@ class _AccessibilityToolsState extends State<AccessibilityTools>
     super.dispose();
   }
 
-  @override
-  void didUpdateSemantics() {
-    SchedulerBinding.instance.addPostFrameCallback((Duration _) {
-      // Semantic information are only available at the end of a frame and our
-      // only chance to paint them on the screen is the next frame. To achieve
-      // this, we call setState() in a post-frame callback.
-      if (mounted) {
-        _checker.update();
-      }
-    });
-  }
+  // @override
+  // void didUpdateSemantics() {
+  //   SchedulerBinding.instance.addPostFrameCallback((Duration _) {
+  //     // Semantic information are only available at the end of a frame and our
+  //     // only chance to paint them on the screen is the next frame. To achieve
+  //     // this, we call setState() in a post-frame callback.
+  //     if (mounted) {
+  //       _checker.update();
+  //     }
+  //   });
+  // }
 
   @override
   void didUpdateWidget(covariant AccessibilityTools oldWidget) {
