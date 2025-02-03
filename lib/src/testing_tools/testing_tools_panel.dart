@@ -197,9 +197,10 @@ class _TestingToolsPanelState extends State<TestingToolsPanel> {
                   //     _notifyTestEnvironmentChanged();
                   //   },
                   // ),
-                  const SizedBox(height: 8),
-                  const Divider(),
-                  const SizedBox(height: 12),
+                  // const SizedBox(height: 8),
+                  // const Divider(),
+                  // const SizedBox(height: 12),
+                  gap,
                   Align(
                     alignment: Alignment.centerRight,
                     child: ElevatedButton.icon(
